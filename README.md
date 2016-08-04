@@ -4,7 +4,7 @@
 
 ##Description
 
-###&nbsp;&nbsp;&nbsp;&nbsp;The PassKit SDK enables user to efficiently connect to the PassKit API.
+###&nbsp;&nbsp;&nbsp;&nbsp;The PassKit SDK enables user to efficiently connect to the PassKit API. To use this SDK, you will need an account with PassKit.
 
 ##0. Prerequisites
 
