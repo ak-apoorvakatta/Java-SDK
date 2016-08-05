@@ -1,16 +1,8 @@
 package passkitSDK;
 
-/*
-class Operation {
-	public Object gt = null;
-	public Object gte = null;
-	public Object lt = null;
-	public Object lte = null;
-	public Object eq = null;
-	public Boolean exists = null;
-}
+import java.util.*;
 
-class PassFilter {
+public class PassFilter {
 	public String id = null;
 	public String templateName = null;
 	public String campaignName = null;
@@ -33,16 +25,4 @@ class PassFilter {
 	public Operation androidPayDevices = null;
 
 	public HashMap <String, Operation> dynamicData = null;
-}
-*/
-
-public class Search {
-	public Integer size = null;
-	public Integer from = null;
-	public PassFilter passFilter = null;
-
-	public Search () {
-
-	}
-
 }
