@@ -4,6 +4,7 @@ import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/*
 class DynamicData {
 	public HashMap<String, Object> dynamicDataContent = null;
 }
@@ -18,8 +19,8 @@ class PassImages {
 }
 
 class DynamicImages {
-
 	public PassImages passbook = null;
+}
 }
 
 class DynamicBackfields {
@@ -32,7 +33,7 @@ class PassPassbook {
 	public String bgColor = null;
 	public String labelColor = null;
 	public String fgColor = null;
-}
+}*/
 
 public class Pass {
 	public String id = null;

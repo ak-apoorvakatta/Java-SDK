@@ -4,6 +4,7 @@ import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/*
 class DynamicKeys {
 	public String key = null;
 	public String type = null;
@@ -148,6 +149,7 @@ class PassbookLang {
 	public String bgFile = null;
 	public Map <String, String> text = null;
 }
+*/
 
 public class Template {
 	public String index = null;
