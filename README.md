@@ -255,7 +255,7 @@ path = pk.uploadImage(new File(img.png));
 ```java
 RecoveryEmail re1 = new RecoveryEmail();
 re1.passId = "idOfTargetPass";
-re1.newRecoveryEmail = "apoorva@passkit.com;
+re1.newRecoveryEmail = "apoorva@passkit.com";
 RecoveryEmail resultRE1 = null;
 resultRE1 = pk.resendRecoveryEmail(re1);
 ```
@@ -267,7 +267,7 @@ resultRE1 = pk.resendRecoveryEmail(re1);
 RecoveryEmail[] re2 = new RecoveryEmail[2];
 re2[0] = new RecoveryEmail();
 re2[0].passId = "idOfTargetPass";
-re2[0].newRecoveryEmail = "apoorva@passkit.com;
+re2[0].newRecoveryEmail = "apoorva@passkit.com";
 re2[1] = new RecoveryEmail();
 re2[1].passId = "idOfTargetPass";
 RecoveryEmail[] resultRE2 = null;
