@@ -1,4 +1,4 @@
-i#PassKit SDK for JAVA
+#PassKit SDK for JAVA
 
 ![PassKit Logo](https://passkit.com/images/passkit-logo.png)
 
