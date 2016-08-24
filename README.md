@@ -119,9 +119,10 @@ String updatedTemplateName = pk.updateTemplate("nameOfTargetTemplate", t4);
 Template t5 = new Template();
 t5.language = "fr";
 // refer to `https://dev.passkit.net/#update-a-template-with-images` for a complete attribute list.
-HashMap <String,Object> imageHolder2 = new HashMap<String, Object>();
-imageHolder2.put("passbook-IconFile", new File("newIconFile.png"));
-String updatedTemplateName = pk.updateTemplate("nameOfTargetTemplate", t5, imageHolder2);
+HashMap <String,Object> updateImage = new HashMap<String, Object>();
+updateImage.put("passbook-IconFile", new File("path/to/image.png"));
+String[] deleteImage = {"passbook-LogoFile"}
+String updatedTemplateName = pk.updateTemplate("nameOfTargetTemplate", t5, updateImage, deleteImage);
 ```
 
 ###&nbsp;&nbsp;&nbsp;&nbsp;Push Update
