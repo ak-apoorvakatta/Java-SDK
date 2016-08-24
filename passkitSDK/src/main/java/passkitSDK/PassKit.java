@@ -1,9 +1,15 @@
+/**
+* PassKit JAVA SDK for API CORE v2
+*
+* @author  Apoorva Katta
+* @email apoorvakatta@gmail.com
+*/
+
 package passkitSDK;
 
 import java.util.*;
 
-import javax.net.ssl.SSLContext;
-
+import java.io.File;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,8 +28,15 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import javax.net.ssl.SSLContext;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 
 /* Fot ObjectMapper */
@@ -45,6 +58,7 @@ class ServerSideException extends Exception {
 }
 
 public class PassKit {
+	
     /**
      * PassKit Account API Key.
      */
@@ -353,7 +367,7 @@ public class PassKit {
      * @param requestType type of HTTP request.
      * @return a JSON representation of the API response.
      */
-    private JSONArray doQuery (String apiMode, String path, JSONObject data, HashMap <String, Object> images, String requestType) throws InvalidInputException, ServerSideException {
+    private JSONArray doQuery (String apiMode, String path, JSONObject data, HashMap <String, Object> updateImageList, JSONArray imageList, String requestType) throws InvalidInputException, ServerSideException {
         // Concatenate the full endpoint.
         String url = null;
         if (apiMode == "PASS") { url = this.apiPassUrl + "/" + this.apiPassVersion + "/" + path; }
@@ -385,49 +399,86 @@ public class PassKit {
 
             // Generate JWT for authentication
             String jwt = this.createJWT();
-
-            // Set request headers.
-            // Note that for the Authorization, the format is: "PKAuth + space + JWT"
-            Map <String, String> headers = new HashMap<String, String>();
-            headers.put("Authorization", "PKAuth " + jwt);
-            //headers.put("Content-Type", "application/json");
-            //headers.put("Content-Type", "multipart/form-data");
-
-            Map <String, Object> fields = new HashMap<String, Object>();
-            fields.put("jsonBody",data.toString());
-            fields.putAll(images);
-        
+               
             // Set empty response object
             HttpResponse<JsonNode> jsonResponse = null;
 
             // Check for request type, and do request accordingly
             if(requestType == "POST") {
+            	
+            	// Set request headers.
+                Map <String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "PKAuth " + jwt);
+                //headers.put("Content-Type", "multipart/form-data"); // returns error
+            	
+            	Map <String, Object> fields = new HashMap<String, Object>();
+                fields.put("jsonBody",data.toString());
+                if (imageList != null) {
+                	fields.put("updatedMultipart", imageList.toString());
+                }
+                if (updateImageList != null) {
+                	fields.putAll(updateImageList);
+                }
+                
             	jsonResponse = Unirest.post(url)
-            		.headers(headers)
-            		.fields(fields)
-					.asJson();
-			}
-			else if (requestType == "PUT") {
-				jsonResponse = Unirest.put(url)
 					.headers(headers)
-            		.fields(fields)
-					.asJson();
+	            	.fields(fields)
+	            	.asJson();
+            	
+            	if ((400 <= jsonResponse.getStatus()) && (jsonResponse.getStatus() < 500)) {
+                    throw new InvalidInputException("[ "+jsonResponse.getStatus()+": "+jsonResponse.getBody().toString().substring(9).replace('}','\u0000')+" ]");
+                }
+
+                if ((500 <= jsonResponse.getStatus()) && (jsonResponse.getStatus() < 600)) {
+                    throw new ServerSideException("[ "+jsonResponse.getStatus()+": "+jsonResponse.getBody().toString().substring(9).replace('}','\u0000')+" ]");
+                }
+
+                JSONArray object = jsonResponse.getBody().getArray();
+                return object;
+                
 			}
+            else if (requestType == "PUT") {
+            	
+            	// Unirest JAVA is not able to handle multipart on the Http PUT request.
+            	// Hence Apache Library has been used to implement the Http PUT request.
+            	
+            	// Setting up HttpEntity for HttpPut
+            	MultipartEntityBuilder entityBuilder = MultipartEntityBuilder
+            			.create()
+            			.addTextBody("jsonBody", data.toString())
+            			.addTextBody("updatedMultipart", imageList.toString());
+            	if (updateImageList != null) {
+            		for ( String key : updateImageList.keySet() ) {
+                		entityBuilder = entityBuilder.addBinaryBody(key, new File(updateImageList.get(key).toString()));
+                	}
+            	}
+            			
+            	HttpEntity entity = entityBuilder.build();
+            	
+            	
+            	HttpPut request = new HttpPut(url);
+            	request.setHeader("Authorization", "PKAuth " + jwt);
+            	request.setEntity(entity);
+            	
+            	CloseableHttpResponse response = HttpClients.createDefault().execute(request);
+            	String stringResponse = IOUtils.toString(response.getEntity().getContent());
+            	JSONObject output = new JSONObject(stringResponse);
+            	if ((400 <= response.getStatusLine().getStatusCode()) && (response.getStatusLine().getStatusCode() < 500)) {
+                    //throw new InvalidInputException("[ "+response.getStatusLine().getStatusCode()+": "+response.getStatusLine().getReasonPhrase().substring(9).replace('}','\u0000')+" ]");
+            		throw new InvalidInputException("[ "+response.getStatusLine().getStatusCode()+": "+output.getString("error")+" ]");
+                }
 
-            if ((400 <= jsonResponse.getStatus()) && (jsonResponse.getStatus() < 500)) {
-                throw new InvalidInputException("[ "+jsonResponse.getStatus()+": "+jsonResponse.getBody().toString().substring(9).replace('}','\u0000')+" ]");
-            }
-
-            if ((500 <= jsonResponse.getStatus()) && (jsonResponse.getStatus() < 600)) {
-                throw new ServerSideException("[ "+jsonResponse.getStatus()+": "+jsonResponse.getBody().toString().substring(9).replace('}','\u0000')+" ]");
-            }
-
-            // Get the JSON object
-            JSONArray object = jsonResponse.getBody().getArray();
-            //JSONArray object = null;
-
-            // return object
-            return object;
+                if ((500 <= response.getStatusLine().getStatusCode()) && (response.getStatusLine().getStatusCode() < 600)) {
+                    //throw new ServerSideException("[ "+response.getStatusLine().getStatusCode()+": "+response.getStatusLine().getReasonPhrase().substring(9).replace('}','\u0000')+" ]");
+                    throw new ServerSideException("[ "+response.getStatusLine().getStatusCode()+": "+output.getString("error")+" ]");
+                }
+                
+            	return new JSONArray().put(output);
+            	
+			}
+            
+            return null;
+            
         }
         catch (InvalidInputException e) {
             throw e;
@@ -436,10 +487,9 @@ public class PassKit {
             throw e;
         }
         catch (Exception e) {
-            // Throw exception with details in case of any error.
-            System.out.println(e);
             throw new IllegalStateException("\nAn error occured while doing the API request.", e);
         }
+        
     }
 
     /**
@@ -457,7 +507,6 @@ public class PassKit {
         Map <String, Object> cm = new HashMap<String, Object>();
         cm.put("key", this.apiKey);
         cm.put("exp", System.currentTimeMillis() + 60000); // expiry date 1 minute from now
-
         // set the claims
         String jwt = Jwts.builder().setHeaderParam("typ", "JWT")
                 .setClaims(cm).signWith(sa, TextCodec.BASE64.encode(this.apiSecret)).compact();
@@ -511,7 +560,7 @@ public class PassKit {
     public String createTemplate (Template inputTemplate, HashMap <String, Object> inputImages) {
         try {
             JSONObject inputJSONObject = TemplateToJSONObject(inputTemplate);
-            JSONArray output = doQuery("PASS", "templates", inputJSONObject, inputImages, "POST");
+            JSONArray output = doQuery("PASS", "templates", inputJSONObject, inputImages, null, "POST");
             return output.getJSONObject(0).getString("name");
         } catch (Exception e) {
             System.out.println(e);
@@ -551,10 +600,18 @@ public class PassKit {
         return null;
     }
 
-    public String updateTemplate (String templateName, Template inputTemplate, HashMap <String, Object> inputImages) {
+    public String updateTemplate (String templateName, Template inputTemplate, HashMap <String, Object> updateImageList, String[] deleteImageList) {
         try {
             JSONObject inputJSONObject = TemplateToJSONObject(inputTemplate);
-            JSONArray output = doQuery("PASS", "templates/"+templateName, inputJSONObject, inputImages, "PUT");
+            inputJSONObject.remove("languageList");
+            JSONArray imageList = new JSONArray();
+            if (updateImageList != null){
+            	for (String key : updateImageList.keySet()) { imageList.put(key); }
+            }
+            if (deleteImageList != null) {
+            	for (int i = 0; i < deleteImageList.length; i++) { imageList.put(deleteImageList[i]); }
+            }
+            JSONArray output = doQuery("PASS", "templates/"+templateName, inputJSONObject, updateImageList, imageList, "PUT");
             return output.getJSONObject(0).getString("name");
         } catch (Exception e) {
             System.out.println(e);
@@ -701,7 +758,7 @@ public class PassKit {
         try {
             HashMap <String, Object> temp = new HashMap <String,Object>();
             temp.put("image",inputImage);
-            JSONArray output = doQuery("PASS", "images", new JSONObject(), temp, "POST");
+            JSONArray output = doQuery("PASS", "images", new JSONObject(), temp, null, "POST");
             return output.getJSONObject(0).getString("path");
         } catch (Exception e) {
             System.out.println(e);
