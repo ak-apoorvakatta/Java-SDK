@@ -1,4 +1,4 @@
-#PassKit SDK for JAVA
+i#PassKit SDK for JAVA
 
 ![PassKit Logo](https://passkit.com/images/passkit-logo.png)
 
@@ -120,7 +120,7 @@ Template t5 = new Template();
 t5.language = "fr";
 // refer to `https://dev.passkit.net/#update-a-template-with-images` for a complete attribute list.
 HashMap <String,Object> updateImage = new HashMap<String, Object>();
-imageHolder2.put("passbook-IconFile", new File("path/to/image.png"));
+updateImage.put("passbook-IconFile", new File("path/to/image.png"));
 String[] deleteImage = {"passbook-LogoFile"}
 String updatedTemplateName = pk.updateTemplate("nameOfTargetTemplate", t5, updateImage, deleteImage);
 ```
