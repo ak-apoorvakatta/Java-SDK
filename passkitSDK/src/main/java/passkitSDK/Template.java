@@ -267,13 +267,6 @@ public class Template {
 		try { this.passbook.fgColor.red = inputJSONObject.getJSONObject("passbook").getJSONObject("fgColor").getInt("red"); } catch (Exception e) {}
 		try { this.passbook.fgColor.green = inputJSONObject.getJSONObject("passbook").getJSONObject("fgColor").getInt("green"); } catch (Exception e) {}
 		try { this.passbook.fgColor.blue = inputJSONObject.getJSONObject("passbook").getJSONObject("fgColor").getInt("blue"); } catch (Exception e) {}
-		this.passbook.barcode = new PassbookTemplateBarcode();
-		try { this.passbook.barcode.altText = inputJSONObject.getJSONObject("passbook").getJSONObject("barcode").getString("altText"); } catch (Exception e) {}
-		try { this.passbook.barcode.altTextOption = inputJSONObject.getJSONObject("passbook").getJSONObject("barcode").getString("altTextOption"); } catch (Exception e) {}
-		try { this.passbook.barcode.format = inputJSONObject.getJSONObject("passbook").getJSONObject("barcode").getString("format"); } catch (Exception e) {}
-		try { this.passbook.barcode.message = inputJSONObject.getJSONObject("passbook").getJSONObject("barcode").getString("message"); } catch (Exception e) {}
-		try { this.passbook.barcode.messageOption = inputJSONObject.getJSONObject("passbook").getJSONObject("barcode").getString("messageOption"); } catch (Exception e) {}
-		try { this.passbook.barcode.messageEncoding = inputJSONObject.getJSONObject("passbook").getJSONObject("barcode").getString("messageEncoding"); } catch (Exception e) {}
 		this.passbook.nfc = new PassbookTemplateNfc();
 		try { this.passbook.nfc.message = inputJSONObject.getJSONObject("passbook").getJSONObject("nfc").getString("message"); } catch (Exception e) {}
 		try { this.passbook.nfc.encryptionPublicKey = inputJSONObject.getJSONObject("passbook").getJSONObject("nfc").getString("encryptionPublicKey"); } catch (Exception e) {}
@@ -434,7 +427,22 @@ public class Template {
 				addPassbookTemplateLocation(temp);
 			}
 		} catch (Exception e) {  }
-
+		
+		try { 
+			arrayLength = inputJSONObject.getJSONObject("passbook").getJSONArray("barcodes").length();
+			for (int i = 0; i<arrayLength; i++) {
+				JSONObject tempJSONObject = inputJSONObject.getJSONObject("passbook").getJSONArray("barcodes").getJSONObject(i);
+				PassbookTemplateBarcode temp = new PassbookTemplateBarcode();
+				try { temp.altText = tempJSONObject.getString("altText"); } catch (Exception e) {}
+				try { temp.altTextOption = tempJSONObject.getString("altTextOption"); } catch (Exception e) {}
+				try { temp.format = tempJSONObject.getString("format"); } catch (Exception e) {}
+				try { temp.message = tempJSONObject.getString("message"); } catch (Exception e) {}
+				try { temp.messageOption = tempJSONObject.getString("messageOption"); } catch (Exception e) {}
+				try { temp.messageEncoding = tempJSONObject.getString("messageEncoding"); } catch (Exception e) {}
+				addPassbookTemplateBarcode(temp);
+			}
+		} catch (Exception e) {  }
+		
 		// passbookRedeem
 		this.passbookRedeem = new Passbook();
 		try { this.passbookRedeem.type = inputJSONObject.getJSONObject("passbookRedeem").getString("type"); } catch (Exception e) {}
@@ -463,13 +471,6 @@ public class Template {
 		try { this.passbookRedeem.fgColor.red = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("fgColor").getInt("red"); } catch (Exception e) {}
 		try { this.passbookRedeem.fgColor.green = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("fgColor").getInt("green"); } catch (Exception e) {}
 		try { this.passbookRedeem.fgColor.blue = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("fgColor").getInt("blue"); } catch (Exception e) {}
-		this.passbookRedeem.barcode = new PassbookTemplateBarcode();
-		try { this.passbookRedeem.barcode.altText = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("barcode").getString("altText"); } catch (Exception e) {}
-		try { this.passbookRedeem.barcode.altTextOption = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("barcode").getString("altTextOption"); } catch (Exception e) {}
-		try { this.passbookRedeem.barcode.format = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("barcode").getString("format"); } catch (Exception e) {}
-		try { this.passbookRedeem.barcode.message = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("barcode").getString("message"); } catch (Exception e) {}
-		try { this.passbookRedeem.barcode.messageOption = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("barcode").getString("messageOption"); } catch (Exception e) {}
-		try { this.passbookRedeem.barcode.messageEncoding = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("barcode").getString("messageEncoding"); } catch (Exception e) {}
 		this.passbookRedeem.nfc = new PassbookTemplateNfc();
 		try { this.passbookRedeem.nfc.message = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("nfc").getString("message"); } catch (Exception e) {}
 		try { this.passbookRedeem.nfc.encryptionPublicKey = inputJSONObject.getJSONObject("passbookRedeem").getJSONObject("nfc").getString("encryptionPublicKey"); } catch (Exception e) {}
@@ -628,6 +629,21 @@ public class Template {
 				try { temp.lon = Float.valueOf(String.valueOf(tempJSONObject.getString("lon"))); } catch (Exception e) {}
 				try { temp.relevantText = tempJSONObject.getString("relevantText"); } catch (Exception e) {}
 				addPassbookRedeemTemplateLocation(temp);
+			}
+		} catch (Exception e) {  }
+		
+		try { 
+			arrayLength = inputJSONObject.getJSONObject("passbookRedeem").getJSONArray("barcodes").length();
+			for (int i = 0; i<arrayLength; i++) {
+				JSONObject tempJSONObject = inputJSONObject.getJSONObject("passbookRedeem").getJSONArray("barcodes").getJSONObject(i);
+				PassbookTemplateBarcode temp = new PassbookTemplateBarcode();
+				try { temp.altText = tempJSONObject.getString("altText"); } catch (Exception e) {}
+				try { temp.altTextOption = tempJSONObject.getString("altTextOption"); } catch (Exception e) {}
+				try { temp.format = tempJSONObject.getString("format"); } catch (Exception e) {}
+				try { temp.message = tempJSONObject.getString("message"); } catch (Exception e) {}
+				try { temp.messageOption = tempJSONObject.getString("messageOption"); } catch (Exception e) {}
+				try { temp.messageEncoding = tempJSONObject.getString("messageEncoding"); } catch (Exception e) {}
+				addPassbookRedeemTemplateBarcode(temp);
 			}
 		} catch (Exception e) {  }
 
@@ -1133,7 +1149,39 @@ public class Template {
 			this.passbookRedeem.assoStoreId[size] = inputInteger;
 		}
 	}
+	
+	public void addPassbookTemplateBarcode (PassbookTemplateBarcode inputPassbookTemplateBarcode) {
+		if (this.passbook.barcodes == null) {
+			this.passbook.barcodes = new PassbookTemplateBarcode[]{inputPassbookTemplateBarcode};
+		} else {
+			int size = this.passbook.barcodes.length;
+			PassbookTemplateBarcode[] newPassbookTemplateBarcode = new PassbookTemplateBarcode[size];
+			for (int i = 0; i < size; i++) {
+				newPassbookTemplateBarcode[i] = this.passbook.barcodes[i];
+			}
+			this.passbook.barcodes = new PassbookTemplateBarcode[size+1];
+			for (int i = 0; i < size; i++) {
+				this.passbook.barcodes[i] = newPassbookTemplateBarcode[i];
+			}
+			this.passbook.barcodes[size] = inputPassbookTemplateBarcode;
+		}
+	}
+	
+	public void addPassbookRedeemTemplateBarcode (PassbookTemplateBarcode inputPassbookRedeemTemplateBarcode) {
+		if (this.passbookRedeem.barcodes == null) {
+			this.passbookRedeem.barcodes = new PassbookTemplateBarcode[]{inputPassbookRedeemTemplateBarcode};
+		} else {
+			int size = this.passbookRedeem.barcodes.length;
+			PassbookTemplateBarcode[] newPassbookRedeemTemplateBarcode = new PassbookTemplateBarcode[size];
+			for (int i = 0; i < size; i++) {
+				newPassbookRedeemTemplateBarcode[i] = this.passbookRedeem.barcodes[i];
+			}
+			this.passbookRedeem.barcodes = new PassbookTemplateBarcode[size+1];
+			for (int i = 0; i < size; i++) {
+				this.passbookRedeem.barcodes[i] = newPassbookRedeemTemplateBarcode[i];
+			}
+			this.passbookRedeem.barcodes[size] = inputPassbookRedeemTemplateBarcode;
+		}
+	}
 
 }
-
-// System.out.println("==\n"+Arrays.toString(this.dynamicKeys)+"\n==");
