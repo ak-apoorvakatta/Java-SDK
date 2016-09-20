@@ -9,7 +9,7 @@
 ##0. Prerequisites
 
 ###&nbsp;&nbsp;&nbsp;&nbsp; Adding JAR File Library
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Download Link: https://github.com/apoorvakatta/Java-SDK/blob/v2.2.0/passkitSDK/target/passkitSDK-2.2.0.jar
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Download Link: https://github.com/PassKit/Java-SDK/blob/v2.2.0/passkitSDK/target/passkitSDK-2.2.0.jar
 
 ###&nbsp;&nbsp;&nbsp;&nbsp; Import passkitSDK
 
