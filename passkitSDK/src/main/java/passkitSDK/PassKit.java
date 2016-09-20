@@ -1,5 +1,4 @@
-/**
-* PassKit JAVA SDK for API CORE v2
+/** PassKit JAVA SDK for API CORE v2
 *
 * @author  Apoorva Katta
 * @email apoorvakatta@gmail.com

@@ -33,6 +33,6 @@ public class Passbook {
 	public PassbookTemplateLocation[] locations = null;
 	public Integer maxDist = null;
 	public String relevantDate = null;
-	public PassbookTemplateBarcode barcode = null;
+	public PassbookTemplateBarcode[] barcodes = null;
 	public PassbookTemplateNfc nfc = null;
 }
