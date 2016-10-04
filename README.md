@@ -296,4 +296,4 @@ output = pk.SearchToJSONObject(search);
 
 ##9. Change Log
 ###&nbsp;&nbsp;&nbsp;&nbsp;v2.2.2
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Added `pass.passbook.locations` and `pass.passbook.beacons` 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Added `pass.passbook.locations` and `pass.passbook.beacons` 
