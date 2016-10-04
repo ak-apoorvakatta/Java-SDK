@@ -8,8 +8,8 @@
 
 ##0. Prerequisites
 
-###&nbsp;&nbsp;&nbsp;&nbsp; Adding JAR File Library
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Download Link: https://github.com/apoorvakatta/Java-SDK/blob/v2.2.0/passkitSDK/target/passkitSDK-2.2.0.jar
+###&nbsp;&nbsp;&nbsp;&nbsp; Download and Add JAR File Library
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Download Link: https://github.com/apoorvakatta/Java-SDK/blob/v2.2.2/passkitSDK/target/passkitSDK-2.2.2.jar
 
 ###&nbsp;&nbsp;&nbsp;&nbsp; Import passkitSDK
 
@@ -293,3 +293,7 @@ output = pk.RecoveryEmailToJSONObject(recoveryEmail);
 Search search = new Search();
 output = pk.SearchToJSONObject(search); 
 ```
+
+##9. Change Log
+###&nbsp;&nbsp;&nbsp;&nbsp;v2.2.2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Added `pass.passbook.locations` and `pass.passbook.beacons` 

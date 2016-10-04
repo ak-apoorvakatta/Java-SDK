@@ -27,11 +27,24 @@ class PassImages {
 class DynamicImages {
 	public PassImages passbook = null;
 }
-}
 
 class DynamicBackfields {
 	public String label = null;
 	public String value = null;
+}
+
+public class PassLocation {
+    public Double alt = null;
+    public Float lat = null;
+    public Float lon = null;
+    public String relevantText = null;
+}
+
+public class PassBeacon {
+	public Integer major = null;
+	public Integer minor = null;
+	public String uuid = null;
+	public String relevantText = null;
 }
 
 class PassPassbook {
@@ -39,6 +52,8 @@ class PassPassbook {
 	public String bgColor = null;
 	public String labelColor = null;
 	public String fgColor = null;
+    public PassLocation[] locations = null;
+    public PassBeacon[] beacons = null;
 }*/
 
 public class Pass {
@@ -112,6 +127,32 @@ public class Pass {
 		try { this.passbook.bgColor = inputJSONObject.getJSONObject("passbook").getString("bgColor"); } catch (Exception e) {}
 		try { this.passbook.labelColor = inputJSONObject.getJSONObject("passbook").getString("labelColor"); } catch (Exception e) {}
 		try { this.passbook.fgColor = inputJSONObject.getJSONObject("passbook").getString("fgColor"); } catch (Exception e) {}
+		try { 
+			counter = inputJSONObject.getJSONObject("passbook").getJSONArray("locations").length();
+			for (int i = 0; i<counter; i++) {
+				JSONObject tempJSONObject = inputJSONObject.getJSONObject("passbook").getJSONArray("locations").getJSONObject(i);
+				PassLocation temp = new PassLocation();
+				try { temp.alt = tempJSONObject.getDouble("alt"); } catch (Exception e) {}
+				try { temp.lat = Float.valueOf(String.valueOf(tempJSONObject.getString("lat"))); } catch (Exception e) {}
+				try { temp.lon = Float.valueOf(String.valueOf(tempJSONObject.getString("lon"))); } catch (Exception e) {}
+				try { temp.relevantText = tempJSONObject.getString("relevantText"); } catch (Exception e) {}
+				addPassLocation(temp);
+			}
+		} catch (Exception e) {  }
+		
+		try { 
+			counter = inputJSONObject.getJSONObject("passbook").getJSONArray("beacons").length();
+			for (int i = 0; i<counter; i++) {
+				JSONObject tempJSONObject = inputJSONObject.getJSONObject("passbook").getJSONArray("beacons").getJSONObject(i);
+				PassBeacon temp = new PassBeacon();
+				try { temp.major = tempJSONObject.getInt("major"); } catch (Exception e) {}
+				try { temp.minor = tempJSONObject.getInt("minor"); } catch (Exception e) {}
+				try { temp.uuid = tempJSONObject.getString("uuid"); } catch (Exception e) {}
+				try { temp.relevantText = tempJSONObject.getString("relevantText"); } catch (Exception e) {}
+				addPassBeacon(temp);
+			}
+		} catch (Exception e) {  }
+		
 		this.dynamicBackfields = new HashMap <String,DynamicBackfields[]>();
 		try {
 			JSONObject tempJSONObject = inputJSONObject.getJSONObject("dynamicBackfields");
@@ -134,4 +175,39 @@ public class Pass {
 			}
 		} catch (Exception e) {}
 	}
+	
+	public void addPassLocation (PassLocation inputPassLocation) {
+		if (this.passbook.locations == null) {
+			this.passbook.locations = new PassLocation[]{inputPassLocation};
+		} else {
+			int size = this.passbook.locations.length;
+			PassLocation[] newPassLocation = new PassLocation[size];
+			for (int i = 0; i < size; i++) {
+				newPassLocation[i] = this.passbook.locations[i];
+			}
+			this.passbook.locations = new PassLocation[size+1];
+			for (int i = 0; i < size; i++) {
+				this.passbook.locations[i] = newPassLocation[i];
+			}
+			this.passbook.locations[size] = inputPassLocation;
+		}
+	}
+	
+	public void addPassBeacon (PassBeacon inputPassBeacon) {
+		if (this.passbook.beacons == null) {
+			this.passbook.beacons = new PassBeacon[]{inputPassBeacon};
+		} else {
+			int size = this.passbook.beacons.length;
+			PassBeacon[] newPassBeacon = new PassBeacon[size];
+			for (int i = 0; i < size; i++) {
+				newPassBeacon[i] = this.passbook.beacons[i];
+			}
+			this.passbook.beacons = new PassBeacon[size+1];
+			for (int i = 0; i < size; i++) {
+				this.passbook.beacons[i] = newPassBeacon[i];
+			}
+			this.passbook.beacons[size] = inputPassBeacon;
+		}
+	}
+	
 }
