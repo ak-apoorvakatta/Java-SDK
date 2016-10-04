@@ -6,9 +6,9 @@
 
 package passkitSDK;
 
-public class PassbookTemplateLocation {
-	public Double alt = null;
-	public Float lat = null;
-	public Float lon = null;
+public class PassBeacon {
+	public Integer major = null;
+	public Integer minor = null;
+	public String uuid = null;
 	public String relevantText = null;
 }

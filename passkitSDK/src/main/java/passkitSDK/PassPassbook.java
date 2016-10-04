@@ -11,4 +11,6 @@ public class PassPassbook {
 	public String bgColor = null;
 	public String labelColor = null;
 	public String fgColor = null;
+    public PassLocation[] locations = null;
+    public PassBeacon[] beacons = null;
 }

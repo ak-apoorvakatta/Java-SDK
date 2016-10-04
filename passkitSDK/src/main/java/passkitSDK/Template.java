@@ -95,7 +95,7 @@ class PassbookTemplateBeacon {
 }
 
 class PassbookTemplateLocation {
-	public Integer alt = null;
+	public Double alt = null;
 	public Float lat = null;
 	public Float lon = null;
 	public String relevantText = null;
@@ -420,7 +420,7 @@ public class Template {
 			for (int i = 0; i<arrayLength; i++) {
 				JSONObject tempJSONObject = inputJSONObject.getJSONObject("passbook").getJSONArray("locations").getJSONObject(i);
 				PassbookTemplateLocation temp = new PassbookTemplateLocation();
-				try { temp.alt = tempJSONObject.getInt("alt"); } catch (Exception e) {}
+				try { temp.alt = tempJSONObject.getDouble("alt"); } catch (Exception e) {}
 				try { temp.lat = Float.valueOf(String.valueOf(tempJSONObject.getString("lat"))); } catch (Exception e) {}
 				try { temp.lon = Float.valueOf(String.valueOf(tempJSONObject.getString("lon"))); } catch (Exception e) {}
 				try { temp.relevantText = tempJSONObject.getString("relevantText"); } catch (Exception e) {}
@@ -624,7 +624,7 @@ public class Template {
 			for (int i = 0; i<arrayLength; i++) {
 				JSONObject tempJSONObject = inputJSONObject.getJSONObject("passbookRedeem").getJSONArray("locations").getJSONObject(i);
 				PassbookTemplateLocation temp = new PassbookTemplateLocation();
-				try { temp.alt = tempJSONObject.getInt("alt"); } catch (Exception e) {}
+				try { temp.alt = tempJSONObject.getDouble("alt"); } catch (Exception e) {}
 				try { temp.lat = Float.valueOf(String.valueOf(tempJSONObject.getString("lat"))); } catch (Exception e) {}
 				try { temp.lon = Float.valueOf(String.valueOf(tempJSONObject.getString("lon"))); } catch (Exception e) {}
 				try { temp.relevantText = tempJSONObject.getString("relevantText"); } catch (Exception e) {}

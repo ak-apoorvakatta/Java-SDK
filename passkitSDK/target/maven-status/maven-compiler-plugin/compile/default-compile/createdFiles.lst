@@ -5,6 +5,7 @@ passkitSDK\DynamicKeys.class
 passkitSDK\PassFilter.class
 passkitSDK\PassPassbook.class
 passkitSDK\Operation.class
+passkitSDK\PassLocation.class
 passkitSDK\PassbookTemplateField.class
 passkitSDK\PassbookTemplateFieldFormat.class
 passkitSDK\PassbookTemplateBackField.class
@@ -14,6 +15,7 @@ passkitSDK\PassKit$2.class
 passkitSDK\DynamicBackfields.class
 passkitSDK\PassbookLang.class
 passkitSDK\Color.class
+passkitSDK\PassBeacon.class
 passkitSDK\InvalidInputException.class
 passkitSDK\PassbookTemplateBackFieldDefaultValueFormat.class
 passkitSDK\PassKit$3.class
